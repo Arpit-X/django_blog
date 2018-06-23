@@ -1,0 +1,38 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Just Write IT!!</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1 class="logo"><a href="{% url 'home' %}"><img src="{% static 'lion.png' %}" height="130em"></a></h1>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                <li>
+                    <form class="logout-link" action="{% url 'accounts:logout' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit">Log Out</button>
+                    </form>
+                </li>
+                <li><a href="{% url 'articles:create' %}" class="highlight">Create Article</a></li>
+                {% else %}
+                    <li><a href="{% url 'accounts:login' %}">LogIn!</a></li>
+                    <li><a href="{% url 'accounts:signup' %}">SignUp!</a></li>
+                {% endif %}
+            </ul>
+
+        </nav>
+    </header>
+
+    <div class="wrapper">
+    {% block content %}
+
+    {% endblock %}
+    </div>
+</body>
+</html>
